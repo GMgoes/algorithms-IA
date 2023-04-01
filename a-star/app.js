@@ -1,26 +1,26 @@
 import { City } from "./util.js";
 
-// Instanciando os objetos (Cidades e seus respectivos indentificadores)
-let bucharest = new City("bucharest"),
-  pitesti = new City("pitesti"),
-  craiova = new City("craiova"),
-  rimnicuvilcea = new City("rimnicuvilcea"),
-  urziceni = new City("urziceni"),
-  arad = new City("arad"),
-  fragaras = new City("fragaras"),
-  lugoj = new City("lugoj"),
-  dobreta = new City("dobreta"),
-  hirsova = new City("hirsova"),
-  timisoara = new City("timisoara"),
-  mehadia = new City("mehadia"),
-  vaslul = new City("vaslul"),
-  oradea = new City("oradea"),
-  zerind = new City("zerind"),
-  iasi = new City("iasi"),
-  eforie = new City("eforie"),
-  neamt = new City("neamt"),
-  sibiu = new City("sibiu"),
-  girgiu = new City("girgiu");
+// Instanciando os objetos (Cidades e seus respectivos nomes e distâncias em linha reta até Bucareste)
+let bucharest = new City("bucharest", 0),
+  pitesti = new City("pitesti", 98),
+  craiova = new City("craiova", 160),
+  rimnicuvilcea = new City("rimnicuvilcea", 193),
+  urziceni = new City("urziceni", 80),
+  arad = new City("arad", 366),
+  fragaras = new City("fragaras", 178),
+  lugoj = new City("lugoj", 244),
+  dobreta = new City("dobreta", 242),
+  hirsova = new City("hirsova", 151),
+  timisoara = new City("timisoara", 329),
+  mehadia = new City("mehadia", 241),
+  vaslul = new City("vaslul", 199),
+  oradea = new City("oradea", 380),
+  zerind = new City("zerind", 374),
+  iasi = new City("iasi", 226),
+  eforie = new City("eforie", 161),
+  neamt = new City("neamt", 234),
+  sibiu = new City("sibiu", 253),
+  girgiu = new City("girgiu", 77);
 
 // Criando os relacionamentos entre cidades (Utilizado vetores por enquanto)
 bucharest.nearbyCities = [
@@ -109,22 +109,37 @@ let currentCity = arad;
 let total = 0;
 currentCity.visited = true;
 
-// Lógica da viagem (Algoritmo Guloso) vai na cidade mais próxima (E não visitada) da cidade em qual está
-// Exemplo: Arad (Cidades Próximas: Zerind -> 75KM; Sibiu -> 140KM; Timisoara -> 118KM - Ele vai escolher Zerind pois é a mais próxima
+// Lógica da viagem (Algoritmo A*) vai na cidade mais próxima da atual e do destino (Levando em consideração a distãncia e as cidades aidna não visitadas)
+/* Exemplo: Arad (Cidades Próximas: Zerind -> 75KM; Sibiu -> 140KM; Timisoara -> 118KM - Ele vai escolher Sibiu, por mais que não seja a mais próxima
+    se somar a distância até ela e a distância dela até Bucareste, ela será a mais próxima do destino */
 while (currentCity.name != bucharest.name) {
   let shorterCity = Number.MAX_VALUE;
   let nextCity = null;
+  let nextJump = 0;
   // Verifica todas as cidades que tem conexão
   currentCity.nearbyCities.forEach((city) => {
-    // Verifica qual possuí menor distância e ainda não visitada
-    if (city.distance < shorterCity && city.name.visited == false) {
-      nextCity = city.name;
-      shorterCity = city.distance;
+    // Verifica qual possuí menor distância para chegar até ela e para chegar até bucharest e ainda não visitada
+    if (
+      city.name.distanceBucharest + city.distance < shorterCity &&
+      city.name.visited == false
+    ) {
+      //TODO: Implementar de forma recursiva para ir voltando invés de olhar e evitar
+      if (
+        !(
+          city.name.nearbyCities.length == 1 &&
+          city.name.nearbyCities[0].name.name != bucharest.name
+        )
+      ) {
+        nextCity = city.name;
+        shorterCity = city.name.distanceBucharest + city.distance;
+        nextJump = city.distance;
+      }
     }
   });
-  /* Informa a cidade que irá em seguida, soma o caminho até ela e roda novamente o laço de repetição */
+  //Informa a cidade que irá em seguida, soma o caminho até ela e roda novamente o laço de repetição
+
   console.log("Passou por: " + currentCity.name);
-  total += shorterCity;
+  total += nextJump;
   nextCity.visited = true;
   currentCity = nextCity;
 }
