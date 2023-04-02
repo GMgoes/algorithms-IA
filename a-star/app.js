@@ -36,7 +36,7 @@ sibiu.nearbyCities = [
   { name: rimnicuvilcea, distance: 80 },
 ];
 pitesti.nearbyCities = [
-  { name: rimnicuvilcea, distance: 97 },
+  /* { name: rimnicuvilcea, distance: 97 }, */
   { name: bucharest, distance: 101 },
   { name: craiova, distance: 138 },
 ];
@@ -48,7 +48,7 @@ craiova.nearbyCities = [
 rimnicuvilcea.nearbyCities = [
   { name: sibiu, distance: 80 },
   { name: craiova, distance: 146 },
-  { name: pitesti, distance: 97 },
+  /* { name: pitesti, distance: 97 }, */
 ];
 urziceni.nearbyCities = [
   { name: bucharest, distance: 85 },
@@ -57,7 +57,7 @@ urziceni.nearbyCities = [
 ];
 arad.nearbyCities = [
   { name: zerind, distance: 75 },
-  { name: sibiu, distance: 800 },
+  { name: sibiu, distance: 140 },
   { name: timisoara, distance: 118 },
 ];
 fragaras.nearbyCities = [
@@ -125,7 +125,6 @@ while (currentCity.name != bucharest.name) {
       distance: city.name.distanceBucharest + city.distance,
     });
   });
-
   /* console.log(availableCities); */
 
   // Verificamos as cidades disponíveis para trabalharmos e vemos qual é a mais próxima (Qual será a próxima parada)
