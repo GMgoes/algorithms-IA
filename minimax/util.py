@@ -40,6 +40,31 @@ def draw(vector):
         return True;
     return False;
 
-def simulateGame(stateVector, player):
+""" def calculatePossibility(stateVector):
+    possibilities = 0;
     if(draw(stateVector)):
         return 0;
+    for element in stateVector:
+        if(element == '-'):
+            possibilities += 1;
+    return possibilities; """
+
+def move(stateVector, player):
+    score = 0;
+    aux = 0;
+    playerTime = player;
+    if(draw(stateVector)):
+        return 0;
+    for element in stateVector:
+        if(element == '-'):
+            if(playerTime):
+                stateVector[aux] = 'X';
+                if(checkHorizontal(stateVector) or checkVertical(stateVector) or checkLeandings(stateVector)):
+                    score = 10;
+            else:
+                stateVector[aux] = 'O';
+                if(checkHorizontal(stateVector) or checkVertical(stateVector) or checkLeandings(stateVector)):
+                    score = -10;
+            break;
+        aux += 1;
+    return score + move(stateVector, not player);

@@ -12,6 +12,8 @@ vetor = [
     '-','-','X',
     ];
 
-startPlayer = 'X';
+startPlayer = False;
+
+print(move(vetor,startPlayer));
 
 # print(copyVector(listVector,vetor,3));
