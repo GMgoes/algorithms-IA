@@ -104,38 +104,43 @@ eforie.nearbyCities = [{ name: hirsova, distance: 86 }];
 neamt.nearbyCities = [{ name: iasi, distance: 87 }];
 girgiu.nearbyCities = [{ name: bucharest, distance: 90 }];
 
-// Instanciando ponto de inicio da jornada (Começando em Arad) e também o total (Distância em KM percorrido)
-let currentCity = arad;
 let availableCities = [];
+availableCities.push({
+  parent: null,
+  distance: arad.distanceBucharest,
+  cidade: arad,
+});
+let currentCity = availableCities[0];
 
-// Lógica da viagem (Algoritmo A*) vai na cidade mais próxima da atual e do destino (Levando em consideração a distãncia e as cidades aidna não visitadas)
-/* Exemplo: Arad (Cidades Próximas: Zerind -> 75KM; Sibiu -> 140KM; Timisoara -> 118KM - Ele vai escolher Sibiu, por mais que não seja a mais próxima
-    se somar a distância até ela e a distância dela até Bucareste, ela será a mais próxima do destino */
-while (currentCity.name != bucharest.name) {
-  // Variável auxiliar para saber qual a menor rota até o destino
+while (currentCity.cidade.distanceBucharest != 0) {
   let minor = Number.MAX_VALUE;
 
-  console.log("Passou por: " + currentCity.name);
-  currentCity.visited = true;
+  console.log("Passou por: " + currentCity.cidade.name);
 
-  // Armazenamos as cidades que podemos trabalhar no momento (Ainda não visitadas e suas respectivas distâncias totais, de deslocamento e em linha reta até Bucareste)
-  currentCity.nearbyCities.forEach((city) => {
+  currentCity.cidade.nearbyCities.forEach((city) => {
     availableCities.push({
-      name: city.name,
+      parent: currentCity.cidade,
       distance: city.name.distanceBucharest + city.distance,
+      cidade: city.name,
+      visited: false,
     });
   });
-  /* console.log(availableCities); */
 
   // Verificamos as cidades disponíveis para trabalharmos e vemos qual é a mais próxima (Qual será a próxima parada)
   availableCities.forEach((city) => {
-    if (city.distance < minor && city.name.visited == false) {
-      currentCity = city.name;
+    if (city.distance < minor && city.visited == false) {
+      currentCity = city;
       minor = city.distance;
     }
   });
+  currentCity.visited = true;
 }
 console.log("E chegou em Bucharest 🥵");
+/* availableCities.forEach((element) => {
+  if (element.visited == true) {
+    console.log(element);
+  }
+}); */
 //TODO: Verificar uma forma de como calcular a distância percorrida, considerando as voltas quando encontra um caminho melhor (Volta algumas camadas)
 /* console.log(
   `A distância percorrida foi de: ${total} Km, andamos um bocado hein 🥵`
