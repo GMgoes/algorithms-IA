@@ -105,43 +105,33 @@ neamt.nearbyCities = [{ name: iasi, distance: 87 }];
 girgiu.nearbyCities = [{ name: bucharest, distance: 90 }];
 
 let availableCities = [];
-availableCities.push({
-  parent: null,
-  distance: arad.distanceBucharest,
-  cidade: arad,
-});
-let currentCity = availableCities[0];
+arad.visited = true;
+availableCities.push({ parent: null, cityExpanded: arad, distanceTotal: 1000 });
+let currentCity = arad;
 
-while (currentCity.cidade.distanceBucharest != 0) {
+while (currentCity.name != bucharest.name) {
   let minor = Number.MAX_VALUE;
 
-  console.log("Passou por: " + currentCity.cidade.name);
+  console.log("Passou por: " + currentCity.name);
 
-  currentCity.cidade.nearbyCities.forEach((city) => {
+  currentCity.nearbyCities.forEach((city) => {
     availableCities.push({
-      parent: currentCity.cidade,
-      distance: city.name.distanceBucharest + city.distance,
-      cidade: city.name,
-      visited: false,
+      parent: currentCity.name,
+      cityExpanded: city.name,
+      distanceTotal: city.distance + city.name.distanceBucharest,
     });
   });
 
-  // Verificamos as cidades disponíveis para trabalharmos e vemos qual é a mais próxima (Qual será a próxima parada)
-  availableCities.forEach((city) => {
-    if (city.distance < minor && city.visited == false) {
-      currentCity = city;
-      minor = city.distance;
+  availableCities.forEach((no_way) => {
+    if (no_way.distanceTotal < minor && no_way.cityExpanded.visited == false) {
+      currentCity = no_way.cityExpanded;
+      minor = no_way.distanceTotal;
     }
   });
   currentCity.visited = true;
 }
-console.log("E chegou em Bucharest 🥵");
-/* availableCities.forEach((element) => {
-  if (element.visited == true) {
-    console.log(element);
-  }
-}); */
-//TODO: Verificar uma forma de como calcular a distância percorrida, considerando as voltas quando encontra um caminho melhor (Volta algumas camadas)
+console.log("E chegou em bucharest 🥵");
+//TODO: Verificar uma forma de como calcular a distância percorrida, e voltar recursivamente através dos nós
 /* console.log(
   `A distância percorrida foi de: ${total} Km, andamos um bocado hein 🥵`
 ); */

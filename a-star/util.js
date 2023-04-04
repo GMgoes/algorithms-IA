@@ -36,8 +36,9 @@ export class NodeChildren {
 
 export class City {
   constructor(name, distanceBucharest) {
-    this.name = name; /* 
-    this.visited = false; */
+    this.parent = null;
+    this.name = name;
+    this.visited = false;
     this.distanceBucharest = distanceBucharest;
   }
 }
