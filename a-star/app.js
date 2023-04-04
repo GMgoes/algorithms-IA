@@ -1,136 +1,99 @@
 import { City } from "./util.js";
 
 // Instanciando os objetos (Cidades e seus respectivos nomes e distâncias em linha reta até Bucareste)
-let bucharest = new City("bucharest", 0),
-  pitesti = new City("pitesti", 98),
-  craiova = new City("craiova", 160),
-  rimnicuvilcea = new City("rimnicuvilcea", 193),
-  urziceni = new City("urziceni", 80),
-  arad = new City("arad", 366),
-  fragaras = new City("fragaras", 178),
-  lugoj = new City("lugoj", 244),
-  dobreta = new City("dobreta", 242),
-  hirsova = new City("hirsova", 151),
-  timisoara = new City("timisoara", 329),
-  mehadia = new City("mehadia", 241),
-  vaslul = new City("vaslul", 199),
-  oradea = new City("oradea", 380),
-  zerind = new City("zerind", 374),
-  iasi = new City("iasi", 226),
-  eforie = new City("eforie", 161),
-  neamt = new City("neamt", 234),
-  sibiu = new City("sibiu", 253),
-  girgiu = new City("girgiu", 77);
+
+let itinerario = {
+  Bucareste: { name: "Bucareste", distance: 0 },
+  Pitesti: { name: "Pitesti", distance: 98 },
+  Craiova: { name: "Craiova", distance: 160 },
+  RimnicuVilcea: { name: "RimnicuVilcea", distance: 193 },
+  Urziceni: { name: "Urziceni", distance: 80 },
+  Arad: { name: "Arad", distance: 366 },
+  Fagaras: { name: "Fagaras", distance: 178 },
+  Lugoj: { name: "Lugoj", distance: 244 },
+  Drobeta: { name: "Drobeta", distance: 242 },
+  Hirsova: { name: "Hirsova", distance: 151 },
+  Timisoara: { name: "Timisoara", distance: 329 },
+  Mehadia: { name: "Mehadia", distance: 241 },
+  Vaslul: { name: "Vaslul", distance: 199 },
+  Oradea: { name: "Oradea", distance: 380 },
+  Zerind: { name: "Zerind", distance: 374 },
+  Iasi: { name: "Iasi", distance: 226 },
+  Eforie: { name: "Eforie", distance: 161 },
+  Neamt: { name: "Neamt", distance: 234 },
+  Sibiu: { name: "Sibiu", distance: 253 },
+  Girgiu: { name: "Girgiu", distance: 77 },
+};
 
 // Criando os relacionamentos entre cidades (Utilizado vetores por enquanto)
-bucharest.nearbyCities = [
-  { name: fragaras, distance: 211 },
-  { name: pitesti, distance: 101 },
-  { name: girgiu, distance: 90 },
-  { name: urziceni, distance: 85 },
-];
-sibiu.nearbyCities = [
-  { name: oradea, distance: 151 },
-  { name: arad, distance: 140 },
-  { name: fragaras, distance: 99 },
-  { name: rimnicuvilcea, distance: 80 },
-];
-pitesti.nearbyCities = [
-  /* { name: rimnicuvilcea, distance: 97 }, */
-  { name: bucharest, distance: 101 },
-  { name: craiova, distance: 138 },
-];
-craiova.nearbyCities = [
-  { name: dobreta, distance: 120 },
-  { name: rimnicuvilcea, distance: 146 },
-  { name: pitesti, distance: 138 },
-];
-rimnicuvilcea.nearbyCities = [
-  { name: sibiu, distance: 80 },
-  { name: craiova, distance: 146 },
-  /* { name: pitesti, distance: 97 }, */
-];
-urziceni.nearbyCities = [
-  { name: bucharest, distance: 85 },
-  { name: hirsova, distance: 98 },
-  { name: vaslul, distance: 142 },
-];
-arad.nearbyCities = [
-  { name: zerind, distance: 75 },
-  { name: sibiu, distance: 140 },
-  { name: timisoara, distance: 118 },
-];
-fragaras.nearbyCities = [
-  { name: sibiu, distance: 99 },
-  { name: bucharest, distance: 211 },
-];
-lugoj.nearbyCities = [
-  { name: timisoara, distance: 111 },
-  { name: mehadia, distance: 70 },
-];
-dobreta.nearbyCities = [
-  { name: mehadia, distance: 75 },
-  { name: craiova, distance: 120 },
-];
-hirsova.nearbyCities = [
-  { name: urziceni, distance: 98 },
-  { name: eforie, distance: 86 },
-];
-timisoara.nearbyCities = [
-  { name: arad, distance: 118 },
-  { name: lugoj, distance: 111 },
-];
-mehadia.nearbyCities = [
-  { name: lugoj, distance: 70 },
-  { name: dobreta, distance: 75 },
-];
-vaslul.nearbyCities = [
-  { name: urziceni, distance: 142 },
-  { name: iasi, distance: 92 },
-];
-oradea.nearbyCities = [
-  { name: zerind, distance: 71 },
-  { name: sibiu, distance: 151 },
-];
-zerind.nearbyCities = [
-  { name: arad, distance: 75 },
-  { name: oradea, distance: 71 },
-];
-iasi.nearbyCities = [
-  { name: vaslul, distance: 92 },
-  { name: neamt, distance: 87 },
-];
-eforie.nearbyCities = [{ name: hirsova, distance: 86 }];
-neamt.nearbyCities = [{ name: iasi, distance: 87 }];
-girgiu.nearbyCities = [{ name: bucharest, distance: 90 }];
+const romenia = {
+  Urziceni: [{ Bucharest: 85 }, { Hirsova: 98 }, { Vaslui: 142 }],
+  Hirsova: [{ Urziceni: 98 }, { Eforie: 86 }],
+  Vaslul: [{ Urziceni: 142 }, { Iasi: 92 }],
+  Iasi: [{ Vaslui: 92 }, { Neamt: 87 }],
+  Eforie: [{ Hirsova: 86 }],
+  Neamt: [{ Neamt: 87 }],
+  Girgiu: [{ Girgiu: 90 }],
+  Arad: [{ Zerind: 75 }, { Timisoara: 118 }, { Sibiu: 140 }],
+  Zerind: [{ Arad: 75 }, { Oradea: 71 }],
+  Oradea: [{ Zerind: 71 }, { Sibiu: 151 }],
+  Timisoara: [{ Arad: 118 }, { Lugoj: 111 }],
+  Lugoj: [{ Timisoara: 111 }, { Mehadia: 70 }],
+  Mehadia: [{ Lugoj: 70 }, { Drobeta: 75 }],
+  Drobeta: [{ Mehadia: 75 }, { Craiova: 120 }],
+  Sibiu: [
+    { Arad: 140 },
+    { Oradea: 151 },
+    { Fagaras: 99 },
+    { RimnicuVilcea: 80 },
+  ],
+  Fagaras: [{ Sibiu: 99 }, { Bucareste: 211 }],
+  RimnicuVilcea: [{ Sibiu: 80 }, { Craiova: 146 } /* { Pitesti: 97 } */],
+  Craiova: [{ Drobeta: 120 }, { RimnicuVilcea: 146 }, { Pitesti: 138 }],
+  Pitesti: [, /* { RimnicuVilcea: 97 } */ { Craiova: 138 }, { Bucareste: 101 }],
+  Bucareste: [{ Fagaras: 211 }, { Pitesti: 101 }],
+};
+
+let starterCity = new City(
+  null,
+  itinerario["Arad"].name,
+  itinerario["Arad"].distance
+);
+starterCity.visited = true;
 
 let availableCities = [];
-arad.visited = true;
-availableCities.push({ parent: null, cityExpanded: arad, distanceTotal: 1000 });
-let currentCity = arad;
+availableCities.push(starterCity);
 
-while (currentCity.name != bucharest.name) {
+let currentCity = starterCity;
+
+while (currentCity.name != "Bucareste") {
   let minor = Number.MAX_VALUE;
 
   console.log("Passou por: " + currentCity.name);
 
-  currentCity.nearbyCities.forEach((city) => {
-    availableCities.push({
-      parent: currentCity.name,
-      cityExpanded: city.name,
-      distanceTotal: city.distance + city.name.distanceBucharest,
-    });
+  romenia[currentCity.name].forEach((city) => {
+    let cityExpanded = new City(
+      currentCity,
+      Object.keys(city)[0],
+      city[Object.keys(city)[0]] + itinerario[Object.keys(city)[0]].distance
+    );
+    availableCities.push(cityExpanded);
   });
-
+  /* console.log(availableCities); */
   availableCities.forEach((no_way) => {
-    if (no_way.distanceTotal < minor && no_way.cityExpanded.visited == false) {
-      currentCity = no_way.cityExpanded;
-      minor = no_way.distanceTotal;
+    if (no_way.distance < minor && no_way.visited == false) {
+      currentCity = no_way;
+      minor = no_way.distance;
     }
   });
   currentCity.visited = true;
 }
 console.log("E chegou em bucharest 🥵");
+availableCities.forEach((element) => {
+  if (element.visited == true) {
+    console.log(element);
+  }
+});
 //TODO: Verificar uma forma de como calcular a distância percorrida, e voltar recursivamente através dos nós
 /* console.log(
   `A distância percorrida foi de: ${total} Km, andamos um bocado hein 🥵`

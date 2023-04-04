@@ -35,10 +35,10 @@ export class NodeChildren {
 } */
 
 export class City {
-  constructor(name, distanceBucharest) {
-    this.parent = null;
+  constructor(parent, name, distance) {
+    this.parent = parent;
     this.name = name;
     this.visited = false;
-    this.distanceBucharest = distanceBucharest;
+    this.distance = distance;
   }
 }
