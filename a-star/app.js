@@ -88,13 +88,17 @@ while (currentCity.name != "Bucareste") {
   });
   currentCity.visited = true;
 }
-console.log("E chegou em bucharest 🥵");
+console.log("E chegou em bucharest 🥵 \n");
+
+let lastCity;
 availableCities.forEach((element) => {
-  if (element.visited == true) {
-    console.log(element);
+  if (element.name == "Bucareste") {
+    lastCity = element;
   }
 });
-//TODO: Verificar uma forma de como calcular a distância percorrida, e voltar recursivamente através dos nós
-/* console.log(
-  `A distância percorrida foi de: ${total} Km, andamos um bocado hein 🥵`
-); */
+while (lastCity.parent != null) {
+  console.log(`Passou por: ${lastCity.name}`);
+  lastCity = lastCity.parent;
+}
+
+console.log("E chegou em arad 🥵");
