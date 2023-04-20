@@ -1,6 +1,5 @@
-function generate_square() {
+function generate_numbers() {
   let vector = [];
-  let matrice = [];
 
   while (vector.length != 9) {
     let flag = false;
@@ -14,31 +13,42 @@ function generate_square() {
       vector.push(number);
     }
   }
+  return vector;
+}
+function is_a_solvable_matrice() {
+  let flag = true;
+  let matrice = [];
+  let vector = [];
+  while (flag) {
+    vector = generate_numbers();
+    let total_inversions = 0;
+    vector.forEach((element) => {
+      for (let i = 0; i < vector.length; i++) {
+        if (element < vector[i]) {
+          total_inversions++;
+        }
+      }
+    });
+    total_inversions % 2 == 0 ? (flag = false) : (flag = true);
+  }
   matrice[0] = [vector[0], vector[1], vector[2]];
   matrice[1] = [vector[3], vector[4], vector[5]];
   matrice[2] = [vector[6], vector[7], vector[8]];
-
   return matrice;
-}
-function calculate_disordered(matrice) {
-  let index = 1;
-  let total = 0;
-  matrice.forEach((element) => {
-    element.forEach((number) => {
-      if (number != index) {
-        total++;
-      }
-      index++;
-    });
-  });
-  return total;
 }
 function print_matrice(matrice) {
   matrice.forEach((element) => {
     console.log(element);
   });
 }
-/* function calculate_distance(matrice, number) {
+function calculate_total_each(matrice) {
+  let total = 0;
+  for (let i = 1; i < 9; i++) {
+    total = total + calculate_each_disordered(matrice, i);
+  }
+  return total;
+}
+/* function calculate_each_disordered(matrice, number) {
   let row_white_space = 0;
   let colum_white_space = 0;
   let row_to_number = 0;
@@ -62,36 +72,80 @@ function print_matrice(matrice) {
 
   return distance;
 } */
-function is_result(matrice, matrice_to_test) {
-  return JSON.stringify(matrice) === JSON.stringify(matrice_to_test);
-}
-function solvable_matrice() {
-  let total_disordered = 0;
-  let matrice;
-  while (total_disordered % 2 == 0) {
-    matrice = generate_square();
-    total_disordered = calculate_disordered(matrice);
+function calculate_each_disordered(matrice, number) {
+  let row_to_number = 0;
+  let column_to_number = 0;
+  let row_to_position = 0;
+  let column_to_position = 0;
+
+  let transform = -1;
+  let must_positions = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 0],
+  ];
+  let distance = 0;
+
+  for (let i = 0; i < matrice.length; i++) {
+    for (let j = 0; j < matrice[0].length; j++) {
+      if (matrice[i][j] == number) {
+        row_to_number = i;
+        column_to_number = j;
+      }
+      if (must_positions[i][j] == number) {
+        row_to_position = i;
+        column_to_position = j;
+      }
+    }
   }
-  return matrice;
+  distance =
+    Math.abs(row_to_position - row_to_number) +
+    Math.abs(column_to_position - column_to_number);
+  return distance;
 }
-function actual_position(matrice) {
-  let row, column;
+function is_result(matrice, matrice_to_test) {
+  let flag = true;
+  for (let i = 0; i < matrice.length; i++) {
+    for (let j = 0; j < matrice[0].length; j++) {
+      if (matrice[i][j] != matrice_to_test[i][j]) {
+        flag = false;
+      }
+    }
+  }
+  return flag;
+}
+function actual_position_row(matrice) {
+  let row;
   for (let i = 0; i < matrice.length; i++) {
     for (let j = 0; j < matrice[0].length; j++) {
       if (matrice[i][j] == 0) {
         row = i;
+      }
+    }
+  }
+  return row;
+}
+function actual_position_column(matrice) {
+  let column;
+  for (let i = 0; i < matrice.length; i++) {
+    for (let j = 0; j < matrice[0].length; j++) {
+      if (matrice[i][j] == 0) {
         column = j;
       }
     }
   }
-  return { row, column };
+  return column;
 }
+function clone_actual(matrice) {
+  return JSON.parse(JSON.stringify(matrice));
+}
+
 export {
-  generate_square,
-  calculate_disordered,
   print_matrice,
-  solvable_matrice,
-  actual_position,
+  is_a_solvable_matrice,
+  actual_position_row,
+  actual_position_column,
   is_result,
-  /* calculate_distance, */
+  clone_actual,
+  calculate_total_each,
 };
