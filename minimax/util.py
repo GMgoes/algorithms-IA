@@ -1,11 +1,3 @@
-def copyVector(listVector, vector, qtde):
-    i = 0;
-    while i <= qtde:
-        copied = vector.copy();
-        listVector.append(copied);
-        i += 1;
-    return listVector;
-
 def checkHorizontal(vector):
     if(vector[0] == vector[1] and vector[1] == vector[2]):
         return True;
@@ -39,32 +31,60 @@ def draw(vector):
     if(quantity == 9):
         return True;
     return False;
-
-""" def calculatePossibility(stateVector):
-    possibilities = 0;
-    if(draw(stateVector)):
-        return 0;
-    for element in stateVector:
+# TODO: checkPossibilities and draw functions are similar
+def checkPossibilities(vector):
+    position = 0
+    possibilities = []
+    for element in vector:
         if(element == '-'):
-            possibilities += 1;
-    return possibilities; """
+            possibilities.append(position)
+        position += 1
+    return possibilities
 
-def move(stateVector, player):
-    score = 0;
-    aux = 0;
-    playerTime = player;
-    if(draw(stateVector)):
+def mustEndure(vector):
+    return (not(checkHorizontal(vector)) and not(checkVertical(vector)) and not(checkLeandings(vector)) and not(draw(vector)))
+
+def calculateScore(vector):
+    score = 0
+    if(checkHorizontal(vector)):
+        score = 10
+    if(checkVertical(vector)):
+        score = 10
+    if(checkLeandings(vector)):
+        score = 10
+    return score
+
+def mini(number):
+    return number * -1
+
+# List containing the instances (Layers of each move)
+listVector = []
+
+def expand(stateVector, player):
+    actual_play = stateVector.copy()
+    actual_player = player
+    if(not mustEndure(actual_play)):
         return 0;
-    for element in stateVector:
-        if(element == '-'):
-            if(playerTime):
-                stateVector[aux] = 'X';
-                if(checkHorizontal(stateVector) or checkVertical(stateVector) or checkLeandings(stateVector)):
-                    score = 10;
-            else:
-                stateVector[aux] = 'O';
-                if(checkHorizontal(stateVector) or checkVertical(stateVector) or checkLeandings(stateVector)):
-                    score = -10;
-            break;
-        aux += 1;
-    return score + move(stateVector, not player);
+    if(calculateScore(actual_play) > 0):
+        if(player):
+            return calculateScore(actual_play)
+        else:
+            return mini(calculateScore(actual_play))
+    if(actual_player):
+        high_score = -100
+        possibilities = checkPossibilities(actual_play)
+        for possibility in possibilities:
+            copy = actual_play.copy()
+            copy[possibility] = 'O'
+            score = expand(copy, not player)
+            high_score = max(high_score, score)
+        return high_score
+    else:
+        high_score = 100
+        possibilities = checkPossibilities(actual_play)
+        for possibility in possibilities:
+            copy = actual_play.copy()
+            copy[possibility] = 'X'
+            score = expand(copy, not player)
+            high_score = min(high_score, score)
+        return high_score

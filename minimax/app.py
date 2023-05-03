@@ -1,19 +1,15 @@
 from util import *
 
-# Lista que conterá as instâncis (Camadas de cada jogada)
-listVector = [];
-
-# Vetor inicial
-# TODO: Gerar um estado inicial de forma aleatória (Ou começar o jogo do começo mesmo)
-# Lê-se: onde está - será uma posição vazia do vetor
-vetor = [
+# Initial vector
+# TODO: Randomly generate an initial state (Or start the game from the beginning)
+# It reads: where is "-" will be an empty position of the vector
+vector = [
     'O','O','X',
     'X','-','O',
     '-','-','X',
     ];
+# True = O and False = X (we have established that the next player will be O)
+player = True;
 
-startPlayer = False;
+expand(vector, player)
 
-print(move(vetor,startPlayer));
-
-# print(copyVector(listVector,vetor,3));
