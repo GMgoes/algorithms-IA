@@ -6,8 +6,8 @@ Basement: <br>
 
 
 Acknowledgement: <br>
-Gedson Faria <br>
-Priscila Silva Martins
+[Gedson Faria](https://www.linkedin.com/in/gedson-faria-078901126/) <br>
+[Priscila Silva Martins](https://www.linkedin.com/in/prismart/)
 
 Technologies: <br><br>
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
